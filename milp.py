@@ -6,7 +6,7 @@ import os
 import sys
 
 GUROBI_OUTPUT=False
-TRIALS=1000
+TRIALS=1
 #num_stations, num_trains, num_routes, minstops
 types=[
 	[1,2,1,3],
@@ -42,8 +42,11 @@ def main():
 	i=0
 	for ttype in results:
 		avg=sum(ttype)/len(ttype)
-		print(f"Complexity (s*t): {types[i][0]*types[i][1]}	Stations (s): {types[i][0]}	Trains (t): {types[i][1]}")
-		print("Average execution time:", avg, "seconds\n")
+		#print(f"Complexity (s*t): {types[i][0]*types[i][1]}	Stations (s): {types[i][0]}	Trains (t): {types[i][1]}")
+		print(f"Train Stations: {types[i][0]}")
+		rnd=round(avg,4)
+
+		print("Average execution time: "+ format(rnd, '.4f')+ " seconds\n")
 
 		i+=1
 	print("======================================================================")
