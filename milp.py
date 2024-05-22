@@ -3,10 +3,11 @@ from gurobipy import GRB
 import random
 import time as T
 import os
+import subprocess
 import sys
 
 GUROBI_OUTPUT=False
-TRIALS=1
+TRIALS=500
 #num_stations, num_trains, num_routes, minstops
 types=[
 	[1,2,1,3],
@@ -40,16 +41,21 @@ def main():
 		trial()
 
 	i=0
+	outstr=""
 	for ttype in results:
 		avg=sum(ttype)/len(ttype)
 		#print(f"Complexity (s*t): {types[i][0]*types[i][1]}	Stations (s): {types[i][0]}	Trains (t): {types[i][1]}")
 		print(f"Train Stations: {types[i][0]}")
 		rnd=round(avg,4)
-
 		print("Average execution time: "+ format(rnd, '.4f')+ " seconds\n")
+		outstr+=f"{types[i][0]}	{rnd}\n"
 
 		i+=1
 	print("======================================================================")
+
+	#will only work on mac, i think you can use clip on win????
+	subprocess.run("pbcopy", text=True, input=outstr)
+
 
 def trial():
 	for x in range(0,len(types)):
@@ -60,7 +66,8 @@ def time(num_stations, num_trains, num_routes, minstops):
 	if not GUROBI_OUTPUT:
 		silence()
 	start_time = T.time()
-	guro(num_stations, num_trains, num_routes, minstops)
+	#guro(num_stations, num_trains, num_routes, minstops)
+	guro(num_stations, num_trains, num_routes, num_stations)
 	end_time= T.time()
 	if not GUROBI_OUTPUT:
 		unsilence()
